@@ -63,6 +63,42 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+y_matrix = zeros(m,num_labels);
+
+for i = 1:m
+    y_matrix(i,y(i)) = 1;
+end
+a1 = [ones(m, 1), X];
+z2 = a1 * Theta1';
+a2 = sigmoid(z2);
+a2 = [ones(m, 1), a2];
+z3 = a2 * Theta2';
+a3 = sigmoid(z3);
+hx = a3;
+
+penalty = sum(sum(Theta1(:, 2:end).^2, 2))+sum(sum(Theta2(:, 2:end).^2, 2));
+
+J = (1/m) * sum(sum( (-y_matrix).*log(hx) - (1 - y_matrix).*log(1-hx), 2)) + lambda*penalty/(2*m);
+
+
+% Perform back propagation. Calculate the error and then the Delta.
+d3 = a3 - y_matrix;
+d2 = d3 * Theta2(:, 2:end) .* sigmoidGradient(z2);
+
+Delta1 = d2' * a1;
+Delta2 = d3' * a2;
+
+Theta1_grad = Delta1/m;
+Theta2_grad = Delta2/m;
+
+
+% Add regularization to the gradients
+Theta1_r = Theta1;
+Theta1_r(:,1) = 0;
+Theta2_r = Theta2;
+Theta2_r(:,1) = 0;
+Theta1_grad = Theta1_grad + (lambda/m) * Theta1_r;
+Theta2_grad = Theta2_grad + (lambda/m) * Theta2_r;
 
 
 
