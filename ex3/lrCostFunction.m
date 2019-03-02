@@ -36,7 +36,16 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+h = sigmoid(X*theta);
+regularization = (lambda/(2 * m)) * sum(theta(2:end).^2);
 
+% Calculate the cost function
+J = (1/m) * (-y' * log(h) - (1-y)' * log(1 - h)) + regularization;
+
+% Calculate the gradient with regularization but exclude it for theta 0.
+gradientRegularization = (lambda/m) * theta;
+gradientRegularization(1) = 0;
+grad = (1/m) * X' * (h - y) + gradientRegularization;
 
 
 

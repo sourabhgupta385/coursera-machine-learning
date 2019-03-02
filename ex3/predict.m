@@ -21,6 +21,28 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+matrix_x = size(X,1);
+X = [ones(matrix_x,1),X];
+z2 = Theta1 * X';
+
+% Calculate a2 and transpose after so we can use it as input for the next layer.
+a2 = sigmoid(z2)';
+
+% Add a0 of layer = 1
+ma2 = size(a2, 1);
+a2 = [ones(ma2, 1), a2];
+
+z3 = Theta2 * a2';
+a3 = sigmoid(z3)';
+
+% Get the maximum probability of each index and also get the index so we know which number was predicted.
+[k_probability, k_value_predicted] = max( a3, [], 2);
+
+p = k_value_predicted;
+
+
+
+
 
 
 

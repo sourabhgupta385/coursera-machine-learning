@@ -30,7 +30,11 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+predictions_for_each_k = sigmoid( X * all_theta' );
 
+[k_probability, k_value_predicted] = max( predictions_for_each_k, [], 2);
+
+p = k_value_predicted;
 
 
 
