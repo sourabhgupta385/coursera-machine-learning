@@ -20,7 +20,15 @@ grad = zeros(size(theta));
 %
 
 
+regularization = (lambda * sum(theta(2:end) .^ 2)) / (2 * m);
+J = 1/(2*m) * (X * theta - y)' * (X * theta - y) + regularization;
 
+
+
+regularizationForGradient = (lambda/m) .* theta;
+regularizationForGradient(1) = 0; % Don't regularize bias unit
+
+grad = (1/m) .* X' * (X * theta - y) + regularizationForGradient;
 
 
 
